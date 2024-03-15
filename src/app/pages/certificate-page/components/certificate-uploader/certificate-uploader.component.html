@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="left-block">
+    <button class="btn" aria-pressed="false" tabindex="0" routerLink="../">Назад</button>
+  </div>
+  <div class="right-block drag-drop-zone">
+    <section class="drag-drop-zone__container">
+      <div class="dropzone" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+        <p>Перетягніть файл сертифікату сюди або</p>
+        <button (click)="fileInput.click()" class="file-input-button">Виберіть через стандартний діалог</button>
+        <input type="file" (change)="onFileSelected($event)" #fileInput aria-label="Upload certificate file" tabindex="0"
+          accept=".cer,.crt" style="display: none;" />
+      </div>
+    </section>
+  </div>
+</div>
+

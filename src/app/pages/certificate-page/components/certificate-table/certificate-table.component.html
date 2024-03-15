@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="left-block">
+    <button class="btn" aria-pressed="false" tabindex="0" routerLink="../upload">Додати</button>
+    @if (certificates.length > 0) {
+      <section class="certificate-list__container">
+        <ul class="certificate-list">
+          @for (cert of certificates; track cert.id; let idx = $index) {
+            <li (click)="selectCertificate(idx)" class="certificate-list__item" [class.active]="isActive(idx)">
+              <a class="certificate-list__link" role="button" aria-pressed="false" tabindex="0">
+                {{ cert.commonName }}
+              </a>
+            </li>
+          }
+        </ul>
+      </section>
+    } @else {
+      <div class="no-certificates">Немає жодного сертифікату</div>
+    }
+  </div>
+
+  <aside class="right-block">
+    @if (selectedCertificate) {
+      <div class="right-block__content">
+        <table class="table" role="table" aria-label="Certificate details">
+          <thead class="table__head">
+            <tr class="table__row" role="row">
+              <th class="table__header" role="columnheader" scope="col"></th>
+              <th class="table__header" role="columnheader" scope="col"></th>
+            </tr>
+          </thead>
+          <tbody class="table__body">
+            <tr class="table__row" role="row">
+              <th class="table__row-header" role="rowheader" scope="row">Common Name:</th>
+              <td class="table__cell" role="cell">{{ selectedCertificate.commonName }}</td>
+            </tr>
+            <tr class="table__row" role="row">
+              <th class="table__row-header" role="rowheader" scope="row">Valid From:</th>
+              <td class="table__cell" role="cell">{{ selectedCertificate.validFrom }}</td>
+            </tr>
+            <tr class="table__row" role="row">
+              <th class="table__row-header" role="rowheader" scope="row">Valid To:</th>
+              <td class="table__cell" role="cell">{{ selectedCertificate.validTo }}</td>
+            </tr>
+            <tr class="table__row" role="row">
+              <th class="table__row-header" role="rowheader" scope="row">Issuer CN:</th>
+              <td class="table__cell" role="cell">{{ selectedCertificate.issuerCN }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+  </aside>
+</div>
