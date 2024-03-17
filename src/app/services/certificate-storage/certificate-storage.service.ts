@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { ICertificate } from '@models/certificate';
 
 @Injectable({
@@ -8,10 +9,13 @@ export class CertificateStorageService {
   private storageKey = 'certificates';
   certificates: ICertificate[] = [];
 
-  getCertificates(): ICertificate[] {
-    const data = localStorage.getItem(this.storageKey);
-    this.certificates = data ? JSON.parse(data) : [];
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
+  getCertificates(): ICertificate[] {
+    if (isPlatformBrowser(this.platformId)) {
+      const data = localStorage.getItem(this.storageKey);
+      this.certificates = data ? JSON.parse(data) : [];
+    }
     return this.certificates;
   }
 
@@ -20,7 +24,9 @@ export class CertificateStorageService {
       return;
     }
     this.certificates.push(certificate);
-    localStorage.setItem(this.storageKey, JSON.stringify(this.certificates));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(this.storageKey, JSON.stringify(this.certificates));
+    }
   }
 
   checkCertificateExists(certificate: ICertificate): boolean {

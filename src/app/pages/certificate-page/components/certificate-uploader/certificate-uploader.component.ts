@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-import { mergeMap } from 'rxjs/operators';
+import { of, mergeMap, catchError } from 'rxjs';
 
 import { CertificateService, FileService, CertificateStorageService } from '@services/certificate';
 
@@ -47,9 +47,17 @@ export class CertificateUploaderComponent {
 
   handleFileUpload(file: File) {
     this.fileService.readFile(file).pipe(
-      mergeMap(arrayBuffer => this.certificateService.getCertificates(arrayBuffer))
+      mergeMap(arrayBuffer => this.certificateService.getCertificates(arrayBuffer)),
+      catchError(error => {
+      console.error('Помилка під час обробки файлу:', error);
+      return of(null);
+    })
     ).subscribe(certificateData => {
-      this.storageService.saveCertificates(certificateData);
+      if (certificateData) {
+        this.storageService.saveCertificates(certificateData);
+      } else {
+        console.log('Сертифікати не були завантажені через помилку');
+      }
     });
   }
 }
