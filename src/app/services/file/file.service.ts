@@ -17,11 +17,11 @@ export class FileService {
         if (reader.result) {
           resolve(reader.result as ArrayBuffer);
         } else {
-          reject(new Error('Failed to read file'));
+          reject(new Error('Не вдалося прочитати файл'));
         }
       };
       reader.onerror = () => {
-        reject(new Error('Failed to read file'));
+        reject(new Error('Не вдалося прочитати файл'));
       };
       reader.readAsArrayBuffer(file);
     });
