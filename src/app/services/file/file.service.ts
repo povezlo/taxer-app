@@ -17,7 +17,7 @@ export class FileService {
         if (reader.result) {
           resolve(reader.result as ArrayBuffer);
         } else {
-          reject(new Error('Не вдалося прочитати файл'));
+          reject(new Error('Не вдалося прочитати файл!'));
         }
       };
       reader.onerror = () => {
