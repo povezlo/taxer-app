@@ -21,7 +21,7 @@ export class FileService {
         }
       };
       reader.onerror = () => {
-        reject(new Error('Не вдалося прочитати файл'));
+        reject(new Error('Не вдалося прочитати файл!'));
       };
       reader.readAsArrayBuffer(file);
     });
